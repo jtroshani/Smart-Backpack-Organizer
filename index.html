@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNiIgZmlsbD0iI0UyMzc0NCIvPgogIDxwYXRoIGQ9Ik0yMCAyOGMwLTYuNiA1LjQtMTIgMTItMTJzMTIgNS40IDEyIDEydjJoMmEzIDMgMCAwIDEgMyAzdjE4YTQgNCAwIDAgMS00IDRIMTlhNCA0IDAgMCAxLTQtNFYzM2EzIDMgMCAwIDEgMy0zaDJ2LTJabTQgMmgxNnYtMmMwLTQuNC0zLjYtOC04LThzLTggMy42LTggOHYyWiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4K"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+    <meta name="theme-color" content="#E23744" />
+    <meta name="description" content="Smart Backpack Organizer — know exactly what your child needs for school each day." />
+    <title>Smart Backpack Organizer</title>
+    <style>
+      :root {
+        --color-red: #e23744;
+        --color-red-dark: #c62232;
+        --color-red-tint: #fdeced;
+        --color-green: #2fae60;
+        --color-green-tint: #eaf8ef;
+        --color-bg: #f5f5f7;
+        --color-surface: #ffffff;
+        --color-border: #ececef;
+        --color-text: #1c1c1e;
+        --color-text-secondary: #8a8a8e;
+        --color-text-muted: #b7b7bc;
+
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+        --radius-pill: 999px;
+
+        --shadow-card: 0 1px 2px rgba(20, 20, 30, 0.04), 0 6px 16px rgba(20, 20, 30, 0.06);
+        --shadow-nav: 0 -2px 12px rgba(20, 20, 30, 0.06);
+
+        --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: var(--color-bg);
+        color: var(--color-text);
+        -webkit-font-smoothing: antialiased;
+        overscroll-behavior-y: none;
+      }
+
+      #root {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      button {
+        font-family: inherit;
+      }
+
+      input,
+      textarea {
+        font-family: inherit;
+      }
+
+      /* App shell */
+      .app {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        max-width: 560px;
+        margin: 0 auto;
+        width: 100%;
+        background: var(--color-bg);
+      }
+
+      .app-main {
+        flex: 1;
+        padding: 20px 16px 100px;
+      }
+
+      /* Header */
+      .app-header {
+        background: linear-gradient(180deg, var(--color-red) 0%, var(--color-red-dark) 100%);
+        color: #fff;
+        padding: calc(env(safe-area-inset-top, 0px) + 20px) 20px 26px;
+        border-radius: 0 0 28px 28px;
+        box-shadow: 0 6px 20px rgba(226, 55, 68, 0.25);
+      }
+
+      .app-header__title {
+        font-size: 26px;
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+
+      .app-header__subtitle {
+        margin: 8px 0 0;
+        font-size: 14.5px;
+        line-height: 1.45;
+        opacity: 0.92;
+        max-width: 46ch;
+      }
+
+      .app-header__top {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+      }
+
+      .lang-toggle {
+        display: inline-flex;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-pill);
+        padding: 3px;
+        gap: 2px;
+      }
+
+      .lang-toggle__btn {
+        border: none;
+        background: transparent;
+        color: #fff;
+        opacity: 0.75;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        padding: 6px 13px;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+      }
+
+      .lang-toggle__btn.active {
+        background: #fff;
+        color: var(--color-red-dark);
+        opacity: 1;
+      }
+
+      /* Bottom nav */
+      .bottom-nav {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--color-surface);
+        border-top: 1px solid var(--color-border);
+        box-shadow: var(--shadow-nav);
+        padding: 10px 12px calc(env(safe-area-inset-bottom, 0px) + 10px);
+        display: flex;
+        justify-content: space-around;
+        gap: 6px;
+        max-width: 560px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .bottom-nav__item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 8px 6px;
+        border: none;
+        background: transparent;
+        color: var(--color-text-secondary);
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        transition: background 0.18s ease, color 0.18s ease;
+      }
+
+      .bottom-nav__item span {
+        font-size: 11.5px;
+        font-weight: 600;
+      }
+
+      .bottom-nav__item.active {
+        background: var(--color-red);
+        color: #fff;
+      }
+
+      .bottom-nav__item:not(.active):active {
+        background: var(--color-bg);
+      }
+
+      /* Cards */
+      .card {
+        background: var(--color-surface);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--color-border);
+      }
+
+      .section-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-secondary);
+        margin: 24px 4px 10px;
+      }
+
+      .section-title:first-child {
+        margin-top: 0;
+      }
+
+      /* Accordion */
+      .accordion-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .day-card {
+        overflow: hidden;
+      }
+
+      .day-card__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 16px;
+        background: transparent;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .day-card__ring {
+        flex-shrink: 0;
+      }
+
+      .day-card__body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .day-card__name-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .day-card__name {
+        font-size: 17px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .day-card__today-pill {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--color-red);
+        background: var(--color-red-tint);
+        padding: 2px 8px;
+        border-radius: var(--radius-pill);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .day-card__summary {
+        margin: 3px 0 0;
+        font-size: 13.5px;
+        color: var(--color-text-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .day-card__meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+
+      .day-card__count {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        white-space: nowrap;
+      }
+
+      .day-card__chevron {
+        color: var(--color-text-muted);
+        transition: transform 0.22s ease;
+        flex-shrink: 0;
+        display: inline-flex;
+      }
+
+      .day-card__chevron.open {
+        transform: rotate(180deg);
+      }
+
+      .day-card__panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.28s ease;
+      }
+
+      .day-card__panel.open {
+        grid-template-rows: 1fr;
+      }
+
+      .day-card__panel-inner {
+        overflow: hidden;
+      }
+
+      .day-card__content {
+        padding: 0 16px 18px;
+        border-top: 1px solid var(--color-border);
+        padding-top: 14px;
+      }
+
+      .checklist-group {
+        margin-bottom: 16px;
+      }
+
+      .checklist-group:last-child {
+        margin-bottom: 0;
+      }
+
+      .checklist-group__title {
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--color-text-muted);
+        margin: 0 0 6px 2px;
+      }
+
+      .checklist-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 2px;
+        cursor: pointer;
+        user-select: none;
+        border: none;
+        background: transparent;
+        width: 100%;
+        text-align: left;
+      }
+
+      .checkbox {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        border: 2px solid var(--color-border);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .checkbox.checked {
+        background: var(--color-red);
+        border-color: var(--color-red);
+      }
+
+      .checklist-item__label {
+        font-size: 15px;
+        color: var(--color-text);
+        transition: color 0.15s ease;
+      }
+
+      .checklist-item__label.checked {
+        color: var(--color-text-muted);
+        text-decoration: line-through;
+      }
+
+      .day-card__footer {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .progress-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .progress-track {
+        flex: 1;
+        height: 8px;
+        background: var(--color-bg);
+        border-radius: var(--radius-pill);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: var(--color-red);
+        border-radius: var(--radius-pill);
+        transition: width 0.25s ease;
+      }
+
+      .progress-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        white-space: nowrap;
+      }
+
+      .ready-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: var(--color-green-tint);
+        color: var(--color-green);
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: 14.5px;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: none;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 14.5px;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: opacity 0.15s ease, background 0.15s ease;
+      }
+
+      .btn:active {
+        opacity: 0.75;
+      }
+
+      .btn-danger-ghost {
+        background: transparent;
+        color: var(--color-red);
+      }
+
+      .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: var(--radius-pill);
+        border: none;
+        background: var(--color-bg);
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .icon-btn:active {
+        opacity: 0.7;
+      }
+
+      .icon-btn-danger {
+        color: var(--color-red);
+      }
+
+      /* Forms */
+      .text-input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: var(--radius-sm);
+        border: 1.5px solid var(--color-border);
+        background: var(--color-bg);
+        font-size: 15px;
+        color: var(--color-text);
+      }
+
+      .text-input:focus {
+        outline: none;
+        border-color: var(--color-red);
+        background: var(--color-surface);
+      }
+
+      .inline-add {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .inline-add .text-input {
+        flex: 1;
+      }
+
+      /* Management list rows */
+      .manage-card {
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .manage-card__header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .manage-card__title-input {
+        flex: 1;
+        min-width: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--color-text);
+        border: none;
+        background: transparent;
+        padding: 4px 0;
+      }
+
+      .manage-card__title-input:focus {
+        outline: none;
+      }
+
+      .manage-card__caption {
+        font-size: 12.5px;
+        color: var(--color-text-secondary);
+        margin: 2px 0 0;
+      }
+
+      .manage-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 2px;
+        border-top: 1px solid var(--color-border);
+        cursor: pointer;
+      }
+
+      .manage-row:first-of-type {
+        border-top: none;
+      }
+
+      .manage-row__label {
+        flex: 1;
+        font-size: 14.5px;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .toggle-check {
+        width: 22px;
+        height: 22px;
+        border-radius: 7px;
+        border: 2px solid var(--color-border);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .toggle-check.checked {
+        background: var(--color-red);
+        border-color: var(--color-red);
+      }
+
+      .day-tabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        margin-bottom: 16px;
+        scrollbar-width: none;
+      }
+
+      .day-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .day-tab {
+        flex-shrink: 0;
+        padding: 9px 16px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--color-border);
+        background: var(--color-surface);
+        color: var(--color-text-secondary);
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .day-tab.active {
+        background: var(--color-red);
+        border-color: var(--color-red);
+        color: #fff;
+      }
+
+      .item-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 2px;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .item-row:first-of-type {
+        border-top: none;
+      }
+
+      .item-row__label {
+        flex: 1;
+        font-size: 14.5px;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .settings-footer {
+        text-align: center;
+        color: var(--color-text-muted);
+        font-size: 12.5px;
+        margin-top: 28px;
+        line-height: 1.6;
+      }
+
+      .empty-hint {
+        color: var(--color-text-secondary);
+        font-size: 14px;
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /* ---------- icons (inlined Lucide path data, ISC licensed) ---------- */
+
+        function svgIcon(size, color, strokeWidth, inner) {
+          return (
+            '<svg xmlns="http://www.w3.org/2000/svg" width="' +
+            size +
+            '" height="' +
+            size +
+            '" viewBox="0 0 24 24" fill="none" stroke="' +
+            color +
+            '" stroke-width="' +
+            strokeWidth +
+            '" stroke-linecap="round" stroke-linejoin="round">' +
+            inner +
+            "</svg>"
+          );
+        }
+
+        var ICONS = {
+          check: function (size, color, strokeWidth) {
+            return svgIcon(size, color || "#fff", strokeWidth || 3, '<path d="M20 6 9 17l-5-5"/>');
+          },
+          chevronDown: function (size, color) {
+            return svgIcon(size, color || "currentColor", 2, '<path d="m6 9 6 6 6-6"/>');
+          },
+          plus: function (size, color) {
+            return svgIcon(size, color || "currentColor", 2.2, '<path d="M5 12h14"/><path d="M12 5v14"/>');
+          },
+          trash: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2,
+              '<path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>'
+            );
+          },
+          partyPopper: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2,
+              '<path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/>'
+            );
+          },
+          backpack: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2.2,
+              '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>'
+            );
+          },
+          calendarDays: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2.2,
+              '<path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M8 13h.01"/><path d="M12 13h.01"/><path d="M16 13h.01"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/>'
+            );
+          },
+          bookOpen: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2.2,
+              '<path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/>'
+            );
+          },
+          settings: function (size, color) {
+            return svgIcon(
+              size,
+              color || "currentColor",
+              2.2,
+              '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>'
+            );
+          },
+        };
+
+        /* ---------- i18n ---------- */
+
+        var DAY_KEYS = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+
+        var I18N = {
+          en: {
+            languageLabel: "Language",
+            appTitle: "Smart Backpack Organizer",
+            todaySubtitle: "Select a day to see everything your child needs for school and check items off as you pack.",
+            nav: { today: "Today", schedule: "Schedule", subjects: "Subjects", settings: "Settings" },
+            days: { monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday", thursday: "Thursday", friday: "Friday" },
+            today: "Today",
+            noSubjectsScheduled: "No subjects scheduled",
+            everydayGroup: "Everyday",
+            nothingScheduled: "Nothing scheduled for this day yet. Add subjects in Schedule.",
+            itemsCount: function (n) {
+              return n + (n === 1 ? " item" : " items");
+            },
+            packedProgress: function (packed, total) {
+              return packed + " of " + total + " packed";
+            },
+            backpackReady: "Backpack Ready",
+            scheduleTitle: "Schedule",
+            scheduleSubtitle: "Choose which subjects your child has on each day.",
+            noSubjectsAddInSubjects: "No subjects yet. Add some in the Subjects tab first.",
+            subjectsTitle: "Subjects",
+            subjectsSubtitle: "Manage subjects and the materials each one needs.",
+            noSubjectsYet: "No subjects yet. Add your first one below.",
+            collapse: "Collapse",
+            expand: "Expand",
+            subjectNameLabel: "Subject name",
+            deleteSubject: "Delete subject",
+            addMaterialPlaceholder: "Add material…",
+            addMaterialLabel: "Add material",
+            addSubjectTitle: "Add subject",
+            addSubjectPlaceholder: "e.g. Chemistry",
+            addSubjectLabel: "Add subject",
+            confirmDeleteSubject: function (name) {
+              return 'Delete "' + name + '" and all its materials?';
+            },
+            removeLabel: function (name) {
+              return "Remove " + name;
+            },
+            settingsTitle: "Settings",
+            settingsSubtitle: "Everyday items go in the backpack no matter the day.",
+            everydayItemsTitle: "Everyday items",
+            noEverydayItems: "No everyday items yet.",
+            addEverydayPlaceholder: "e.g. Umbrella",
+            addItemLabel: "Add item",
+            dataTitle: "Data",
+            resetButton: "Reset to default setup",
+            confirmReset: "Reset subjects, schedule, and everyday items back to the defaults? This can't be undone.",
+            footerNote: "Everything is saved on this device only.",
+          },
+          it: {
+            languageLabel: "Lingua",
+            appTitle: "Organizzatore Zaino Intelligente",
+            todaySubtitle: "Seleziona un giorno per vedere tutto ciò che serve a tuo figlio per la scuola e spunta gli oggetti mentre li metti nello zaino.",
+            nav: { today: "Oggi", schedule: "Orario", subjects: "Materie", settings: "Impostazioni" },
+            days: { monday: "Lunedì", tuesday: "Martedì", wednesday: "Mercoledì", thursday: "Giovedì", friday: "Venerdì" },
+            today: "Oggi",
+            noSubjectsScheduled: "Nessuna materia in programma",
+            everydayGroup: "Ogni giorno",
+            nothingScheduled: "Ancora nessuna materia programmata per questo giorno. Aggiungi le materie in Orario.",
+            itemsCount: function (n) {
+              return n + (n === 1 ? " elemento" : " elementi");
+            },
+            packedProgress: function (packed, total) {
+              return packed + " di " + total + " nello zaino";
+            },
+            backpackReady: "Zaino Pronto",
+            scheduleTitle: "Orario",
+            scheduleSubtitle: "Scegli quali materie ha tuo figlio ogni giorno.",
+            noSubjectsAddInSubjects: "Nessuna materia ancora. Aggiungine alcune nella scheda Materie.",
+            subjectsTitle: "Materie",
+            subjectsSubtitle: "Gestisci le materie e il materiale necessario per ciascuna.",
+            noSubjectsYet: "Nessuna materia ancora. Aggiungi la prima qui sotto.",
+            collapse: "Comprimi",
+            expand: "Espandi",
+            subjectNameLabel: "Nome materia",
+            deleteSubject: "Elimina materia",
+            addMaterialPlaceholder: "Aggiungi materiale…",
+            addMaterialLabel: "Aggiungi materiale",
+            addSubjectTitle: "Aggiungi materia",
+            addSubjectPlaceholder: "es. Chimica",
+            addSubjectLabel: "Aggiungi materia",
+            confirmDeleteSubject: function (name) {
+              return 'Eliminare "' + name + '" e tutto il suo materiale?';
+            },
+            removeLabel: function (name) {
+              return "Rimuovi " + name;
+            },
+            settingsTitle: "Impostazioni",
+            settingsSubtitle: "Gli oggetti di tutti i giorni vanno nello zaino ogni giorno.",
+            everydayItemsTitle: "Oggetti di tutti i giorni",
+            noEverydayItems: "Nessun oggetto ancora.",
+            addEverydayPlaceholder: "es. Ombrello",
+            addItemLabel: "Aggiungi oggetto",
+            dataTitle: "Dati",
+            resetButton: "Ripristina impostazioni predefinite",
+            confirmReset: "Ripristinare materie, orario e oggetti di tutti i giorni ai valori predefiniti? Questa azione non può essere annullata.",
+            footerNote: "Tutti i dati vengono salvati solo su questo dispositivo.",
+          },
+        };
+
+        var LANG_KEY = "sbo:lang";
+
+        function detectDefaultLang() {
+          try {
+            var navLang = navigator.language || (navigator.languages && navigator.languages[0]) || "en";
+            return navLang.toLowerCase().indexOf("it") === 0 ? "it" : "en";
+          } catch (e) {
+            return "en";
+          }
+        }
+
+        function loadLang() {
+          try {
+            var raw = localStorage.getItem(LANG_KEY);
+            if (raw === "en" || raw === "it") return raw;
+            return detectDefaultLang();
+          } catch (e) {
+            return "en";
+          }
+        }
+
+        function saveLang(lang) {
+          localStorage.setItem(LANG_KEY, lang);
+        }
+
+        function L() {
+          return I18N[state.lang];
+        }
+
+        /* ---------- data model + defaults ---------- */
+
+        function m(id, name) {
+          return { id: id, name: name };
+        }
+
+        var DEFAULT_DATA_EN = {
+          subjects: [
+            {
+              id: "math",
+              name: "Math",
+              materials: [m("math-book", "Math textbook"), m("math-notebook", "Notebook"), m("math-geo-set", "Geometry set"), m("math-compass", "Compass")],
+            },
+            {
+              id: "italian",
+              name: "Italian",
+              materials: [m("it-book", "Italian textbook"), m("it-notebook", "Notebook"), m("it-folder", "Folder")],
+            },
+            {
+              id: "geography",
+              name: "Geography",
+              materials: [m("geo-book", "Geography textbook"), m("geo-atlas", "Atlas")],
+            },
+            {
+              id: "english",
+              name: "English",
+              materials: [m("eng-book", "English textbook"), m("eng-notebook", "Notebook"), m("eng-workbook", "Workbook")],
+            },
+            {
+              id: "science",
+              name: "Science",
+              materials: [m("sci-book", "Science textbook"), m("sci-notebook", "Notebook")],
+            },
+            {
+              id: "history",
+              name: "History",
+              materials: [m("hist-book", "History textbook"), m("hist-notebook", "Notebook")],
+            },
+            {
+              id: "art",
+              name: "Art",
+              materials: [m("art-sketchbook", "Sketchbook"), m("art-pencils", "Colored pencils")],
+            },
+            {
+              id: "pe",
+              name: "Physical Education",
+              materials: [m("pe-kit", "PE kit"), m("pe-shoes", "Sneakers")],
+            },
+            {
+              id: "music",
+              name: "Music",
+              materials: [m("music-book", "Music book"), m("music-recorder", "Recorder")],
+            },
+          ],
+          schedule: {
+            monday: ["math", "italian", "geography"],
+            tuesday: ["english", "science", "art"],
+            wednesday: ["math", "history", "music"],
+            thursday: ["italian", "pe", "science"],
+            friday: ["math", "english", "geography"],
+          },
+          everydayItems: [m("pencil-case", "Pencil case"), m("water-bottle", "Water bottle"), m("lunch-box", "Lunch box"), m("diary", "School diary"), m("snack", "Snack")],
+        };
+
+        var DEFAULT_DATA_IT = {
+          subjects: [
+            {
+              id: "math",
+              name: "Matematica",
+              materials: [m("math-book", "Libro di matematica"), m("math-notebook", "Quaderno"), m("math-geo-set", "Set da geometria"), m("math-compass", "Compasso")],
+            },
+            {
+              id: "italian",
+              name: "Italiano",
+              materials: [m("it-book", "Libro di italiano"), m("it-notebook", "Quaderno"), m("it-folder", "Cartellina")],
+            },
+            {
+              id: "geography",
+              name: "Geografia",
+              materials: [m("geo-book", "Libro di geografia"), m("geo-atlas", "Atlante")],
+            },
+            {
+              id: "english",
+              name: "Inglese",
+              materials: [m("eng-book", "Libro di inglese"), m("eng-notebook", "Quaderno"), m("eng-workbook", "Eserciziario")],
+            },
+            {
+              id: "science",
+              name: "Scienze",
+              materials: [m("sci-book", "Libro di scienze"), m("sci-notebook", "Quaderno")],
+            },
+            {
+              id: "history",
+              name: "Storia",
+              materials: [m("hist-book", "Libro di storia"), m("hist-notebook", "Quaderno")],
+            },
+            {
+              id: "art",
+              name: "Arte",
+              materials: [m("art-sketchbook", "Album da disegno"), m("art-pencils", "Matite colorate")],
+            },
+            {
+              id: "pe",
+              name: "Educazione Fisica",
+              materials: [m("pe-kit", "Tuta da ginnastica"), m("pe-shoes", "Scarpe da ginnastica")],
+            },
+            {
+              id: "music",
+              name: "Musica",
+              materials: [m("music-book", "Libro di musica"), m("music-recorder", "Flauto dolce")],
+            },
+          ],
+          schedule: {
+            monday: ["math", "italian", "geography"],
+            tuesday: ["english", "science", "art"],
+            wednesday: ["math", "history", "music"],
+            thursday: ["italian", "pe", "science"],
+            friday: ["math", "english", "geography"],
+          },
+          everydayItems: [m("pencil-case", "Astuccio"), m("water-bottle", "Borraccia"), m("lunch-box", "Porta pranzo"), m("diary", "Diario scolastico"), m("snack", "Merenda")],
+        };
+
+        function cloneDefaultData(lang) {
+          var base = lang === "it" ? DEFAULT_DATA_IT : DEFAULT_DATA_EN;
+          return JSON.parse(JSON.stringify(base));
+        }
+
+        function createId() {
+          if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+          return "id-" + Date.now() + "-" + Math.random().toString(36).slice(2, 9);
+        }
+
+        /* ---------- date helpers ---------- */
+
+        function getTodayKey() {
+          var jsDay = new Date().getDay();
+          var index = jsDay - 1;
+          if (index < 0 || index > 4) return null;
+          return DAY_KEYS[index];
+        }
+
+        function getCurrentWeekMonday() {
+          var now = new Date();
+          var jsDay = now.getDay();
+          var diff = jsDay === 0 ? -6 : 1 - jsDay;
+          var monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
+          return monday.toISOString().slice(0, 10);
+        }
+
+        /* ---------- storage ---------- */
+
+        var DATA_KEY = "sbo:data";
+        var CHECKED_KEY = "sbo:checked";
+
+        function loadData(lang) {
+          try {
+            var raw = localStorage.getItem(DATA_KEY);
+            if (!raw) return cloneDefaultData(lang);
+            var parsed = JSON.parse(raw);
+            if (!parsed.subjects || !parsed.schedule || !parsed.everydayItems) return cloneDefaultData(lang);
+            return parsed;
+          } catch (e) {
+            return cloneDefaultData(lang);
+          }
+        }
+
+        function saveData(data) {
+          localStorage.setItem(DATA_KEY, JSON.stringify(data));
+        }
+
+        function emptyCheckedStore() {
+          var weekOf = getCurrentWeekMonday();
+          var store = {};
+          DAY_KEYS.forEach(function (d) {
+            store[d] = { weekOf: weekOf, items: {} };
+          });
+          return store;
+        }
+
+        function loadChecked() {
+          var weekOf = getCurrentWeekMonday();
+          try {
+            var raw = localStorage.getItem(CHECKED_KEY);
+            if (!raw) return emptyCheckedStore();
+            var parsed = JSON.parse(raw);
+            var store = {};
+            DAY_KEYS.forEach(function (d) {
+              var ds = parsed[d];
+              store[d] = ds && ds.weekOf === weekOf ? ds : { weekOf: weekOf, items: {} };
+            });
+            return store;
+          } catch (e) {
+            return emptyCheckedStore();
+          }
+        }
+
+        function saveChecked(store) {
+          localStorage.setItem(CHECKED_KEY, JSON.stringify(store));
+        }
+
+        /* ---------- checklist helpers ---------- */
+
+        function subjectItemKey(subjectId, materialId) {
+          return "subject:" + subjectId + ":" + materialId;
+        }
+
+        function everydayItemKey(itemId) {
+          return "everyday:" + itemId;
+        }
+
+        function buildDayGroups(day, data) {
+          var subjectIds = data.schedule[day] || [];
+          var groups = [];
+          subjectIds.forEach(function (subjectId) {
+            var subject = data.subjects.filter(function (s) {
+              return s.id === subjectId;
+            })[0];
+            if (!subject) return;
+            groups.push({
+              id: subject.id,
+              name: subject.name,
+              items: subject.materials.map(function (mat) {
+                return { key: subjectItemKey(subject.id, mat.id), name: mat.name };
+              }),
+            });
+          });
+          if (data.everydayItems.length > 0) {
+            groups.push({
+              id: "everyday",
+              name: "Everyday",
+              items: data.everydayItems.map(function (it) {
+                return { key: everydayItemKey(it.id), name: it.name };
+              }),
+            });
+          }
+          return groups;
+        }
+
+        function countItems(groups) {
+          return groups.reduce(function (sum, g) {
+            return sum + g.items.length;
+          }, 0);
+        }
+
+        function countChecked(groups, checkedState) {
+          if (!checkedState) return 0;
+          var count = 0;
+          groups.forEach(function (g) {
+            g.items.forEach(function (it) {
+              if (checkedState.items[it.key]) count++;
+            });
+          });
+          return count;
+        }
+
+        function subjectSummary(day, data) {
+          var ids = data.schedule[day] || [];
+          var names = ids
+            .map(function (id) {
+              var s = data.subjects.filter(function (x) {
+                return x.id === id;
+              })[0];
+              return s ? s.name : null;
+            })
+            .filter(Boolean);
+          return names.join(" • ");
+        }
+
+        /* ---------- html escaping ---------- */
+
+        var ESCAPE_MAP = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+        function esc(str) {
+          return String(str).replace(/[&<>"']/g, function (ch) {
+            return ESCAPE_MAP[ch];
+          });
+        }
+
+        /* ---------- state ---------- */
+
+        var initialLang = loadLang();
+
+        var state = {
+          lang: initialLang,
+          screen: "today",
+          data: loadData(initialLang),
+          checked: loadChecked(),
+          openDay: getTodayKey() || "monday",
+          scheduleDay: "monday",
+          expandedSubjectId: null,
+        };
+
+        saveData(state.data);
+        saveChecked(state.checked);
+        document.documentElement.setAttribute("lang", state.lang);
+        document.title = L().appTitle;
+
+        var root = document.getElementById("root");
+
+        /* ---------- render: shared chrome ---------- */
+
+        function renderHeader(title, subtitle) {
+          var lang = state.lang;
+          var html = '<header class="app-header"><div class="app-header__top">';
+          html += '<div class="lang-toggle" role="group" aria-label="' + esc(L().languageLabel) + '">';
+          html +=
+            '<button type="button" class="lang-toggle__btn' +
+            (lang === "en" ? " active" : "") +
+            '" data-action="set-lang" data-lang="en" aria-pressed="' +
+            (lang === "en") +
+            '" aria-label="English">EN</button>';
+          html +=
+            '<button type="button" class="lang-toggle__btn' +
+            (lang === "it" ? " active" : "") +
+            '" data-action="set-lang" data-lang="it" aria-pressed="' +
+            (lang === "it") +
+            '" aria-label="Italiano">IT</button>';
+          html += "</div></div>";
+          html += '<h1 class="app-header__title">' + esc(title) + '</h1><p class="app-header__subtitle">' + esc(subtitle) + "</p></header>";
+          return html;
+        }
+
+        function renderBottomNav() {
+          var l = L();
+          var items = [
+            { key: "today", label: l.nav.today, icon: ICONS.backpack },
+            { key: "schedule", label: l.nav.schedule, icon: ICONS.calendarDays },
+            { key: "subjects", label: l.nav.subjects, icon: ICONS.bookOpen },
+            { key: "settings", label: l.nav.settings, icon: ICONS.settings },
+          ];
+          var html = '<nav class="bottom-nav">';
+          items.forEach(function (it) {
+            var active = state.screen === it.key;
+            html +=
+              '<button type="button" class="bottom-nav__item' +
+              (active ? " active" : "") +
+              '" data-action="switch-screen" data-screen="' +
+              it.key +
+              '"' +
+              (active ? ' aria-current="page"' : "") +
+              ">" +
+              it.icon(22) +
+              "<span>" +
+              it.label +
+              "</span></button>";
+          });
+          html += "</nav>";
+          return html;
+        }
+
+        /* ---------- render: progress ring ---------- */
+
+        function renderProgressRing(packed, total, size) {
+          size = size || 40;
+          var fraction = total === 0 ? 0 : packed / total;
+          var complete = total > 0 && packed === total;
+          var radius = (size - 5) / 2;
+          var circumference = 2 * Math.PI * radius;
+          var offset = circumference * (1 - fraction);
+          var strokeColor = complete ? "var(--color-green)" : "var(--color-red)";
+          var center = size / 2;
+
+          var s = '<div class="day-card__ring" style="width:' + size + "px;height:" + size + 'px;position:relative;">';
+          s += '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + " " + size + '">';
+          s += '<circle cx="' + center + '" cy="' + center + '" r="' + radius + '" fill="none" stroke="var(--color-border)" stroke-width="4"/>';
+          s +=
+            '<circle cx="' +
+            center +
+            '" cy="' +
+            center +
+            '" r="' +
+            radius +
+            '" fill="none" stroke="' +
+            strokeColor +
+            '" stroke-width="4" stroke-linecap="round" stroke-dasharray="' +
+            circumference +
+            '" stroke-dashoffset="' +
+            offset +
+            '" transform="rotate(-90 ' +
+            center +
+            " " +
+            center +
+            ')" style="transition: stroke-dashoffset .3s ease;"/>';
+          s += "</svg>";
+          s += '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">';
+          s += complete
+            ? ICONS.check(16, "var(--color-green)", 3)
+            : '<span style="font-size:10.5px;font-weight:700;color:var(--color-text-secondary);">' + packed + "/" + total + "</span>";
+          s += "</div></div>";
+          return s;
+        }
+
+        /* ---------- render: today screen ---------- */
+
+        function renderTodayScreen() {
+          var todayKey = getTodayKey();
+          var l = L();
+          var html = renderHeader(l.appTitle, l.todaySubtitle);
+          html += '<main class="app-main"><div class="accordion-list">';
+          DAY_KEYS.forEach(function (day) {
+            html += renderDayCard(day, todayKey);
+          });
+          html += "</div></main>";
+          return html;
+        }
+
+        function renderDayCard(day, todayKey) {
+          var l = L();
+          var data = state.data;
+          var groups = buildDayGroups(day, data);
+          var total = countItems(groups);
+          var checkedState = state.checked[day];
+          var packed = countChecked(groups, checkedState);
+          var summary = subjectSummary(day, data);
+          var complete = total > 0 && packed === total;
+          var isOpen = state.openDay === day;
+          var isToday = todayKey === day;
+
+          var html = '<div class="card day-card" data-day="' + day + '">';
+          html +=
+            '<button type="button" class="day-card__header" data-action="toggle-day" data-day="' +
+            day +
+            '" aria-expanded="' +
+            isOpen +
+            '">';
+          html += renderProgressRing(packed, total, 40);
+          html += '<div class="day-card__body"><div class="day-card__name-row"><p class="day-card__name">' + esc(l.days[day]) + "</p>";
+          if (isToday) html += '<span class="day-card__today-pill">' + esc(l.today) + "</span>";
+          html += '</div><p class="day-card__summary">' + esc(summary || l.noSubjectsScheduled) + "</p></div>";
+          html += '<div class="day-card__meta"><span class="day-card__count">' + esc(l.itemsCount(total)) + "</span></div>";
+          html += '<span class="day-card__chevron' + (isOpen ? " open" : "") + '">' + ICONS.chevronDown(20) + "</span>";
+          html += "</button>";
+
+          html += '<div class="day-card__panel' + (isOpen ? " open" : "") + '"><div class="day-card__panel-inner"><div class="day-card__content">';
+          if (groups.length === 0) {
+            html += '<p class="empty-hint">' + esc(l.nothingScheduled) + "</p>";
+          } else {
+            groups.forEach(function (group) {
+              var groupLabel = group.id === "everyday" ? l.everydayGroup : group.name;
+              html += '<div class="checklist-group"><p class="checklist-group__title">' + esc(groupLabel) + "</p>";
+              group.items.forEach(function (item) {
+                var checked = Boolean(checkedState.items[item.key]);
+                html +=
+                  '<button type="button" class="checklist-item" data-action="toggle-item" data-day="' +
+                  day +
+                  '" data-key="' +
+                  item.key +
+                  '" aria-pressed="' +
+                  checked +
+                  '">';
+                html += '<span class="checkbox' + (checked ? " checked" : "") + '">' + (checked ? ICONS.check(15) : "") + "</span>";
+                html += '<span class="checklist-item__label' + (checked ? " checked" : "") + '">' + esc(item.name) + "</span>";
+                html += "</button>";
+              });
+              html += "</div>";
+            });
+          }
+          if (total > 0) {
+            html += '<div class="day-card__footer">';
+            if (complete) {
+              html += '<div class="ready-banner">' + ICONS.partyPopper(18) + " " + esc(l.backpackReady) + "</div>";
+            } else {
+              var pct = total === 0 ? 0 : (packed / total) * 100;
+              html +=
+                '<div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:' +
+                pct +
+                '%"></div></div><span class="progress-label">' +
+                esc(l.packedProgress(packed, total)) +
+                "</span></div>";
+            }
+            html += "</div>";
+          }
+          html += "</div></div></div>";
+          html += "</div>";
+          return html;
+        }
+
+        /* ---------- render: schedule screen ---------- */
+
+        function renderScheduleScreen() {
+          var l = L();
+          var html = renderHeader(l.scheduleTitle, l.scheduleSubtitle);
+          html += '<main class="app-main"><div class="day-tabs">';
+          DAY_KEYS.forEach(function (day) {
+            var active = state.scheduleDay === day;
+            html +=
+              '<button type="button" class="day-tab' +
+              (active ? " active" : "") +
+              '" data-action="set-schedule-day" data-day="' +
+              day +
+              '">' +
+              esc(l.days[day].slice(0, 3)) +
+              "</button>";
+          });
+          html += "</div>";
+
+          html += '<div class="card manage-card">';
+          var data = state.data;
+          if (data.subjects.length === 0) {
+            html += '<p class="empty-hint">' + esc(l.noSubjectsAddInSubjects) + "</p>";
+          } else {
+            var assigned = {};
+            (data.schedule[state.scheduleDay] || []).forEach(function (id) {
+              assigned[id] = true;
+            });
+            data.subjects.forEach(function (subject) {
+              var checked = Boolean(assigned[subject.id]);
+              html +=
+                '<div class="manage-row" data-action="toggle-schedule-subject" data-subject-id="' + subject.id + '">';
+              html += '<span class="toggle-check' + (checked ? " checked" : "") + '">' + (checked ? ICONS.check(14, "#fff", 3) : "") + "</span>";
+              html += '<span class="manage-row__label">' + esc(subject.name) + "</span>";
+              html += "</div>";
+            });
+          }
+          html += "</div></main>";
+          return html;
+        }
+
+        /* ---------- render: subjects screen ---------- */
+
+        function renderSubjectsScreen() {
+          var l = L();
+          var html = renderHeader(l.subjectsTitle, l.subjectsSubtitle);
+          html += '<main class="app-main">';
+          var data = state.data;
+          if (data.subjects.length === 0) {
+            html += '<p class="empty-hint" style="margin-bottom:12px;">' + esc(l.noSubjectsYet) + "</p>";
+          }
+          data.subjects.forEach(function (subject) {
+            var isOpen = state.expandedSubjectId === subject.id;
+            html += '<div class="card manage-card">';
+            html += '<div class="manage-card__header">';
+            html +=
+              '<button type="button" class="icon-btn" data-action="toggle-expand-subject" data-subject-id="' +
+              subject.id +
+              '" aria-label="' +
+              esc(isOpen ? l.collapse : l.expand) +
+              '">';
+            html +=
+              '<span style="display:inline-flex;transition:transform .2s ease;transform:' +
+              (isOpen ? "rotate(180deg)" : "none") +
+              ';">' +
+              ICONS.chevronDown(18) +
+              "</span></button>";
+            html +=
+              '<input class="manage-card__title-input" data-rename-subject="' +
+              subject.id +
+              '" value="' +
+              esc(subject.name) +
+              '" aria-label="' +
+              esc(l.subjectNameLabel) +
+              '" />';
+            html +=
+              '<button type="button" class="icon-btn icon-btn-danger" data-action="delete-subject" data-subject-id="' +
+              subject.id +
+              '" aria-label="' +
+              esc(l.deleteSubject) +
+              '">' +
+              ICONS.trash(16) +
+              "</button>";
+            html += "</div>";
+            html += '<p class="manage-card__caption">' + esc(l.itemsCount(subject.materials.length)) + "</p>";
+
+            if (isOpen) {
+              html += '<div style="margin-top:10px;">';
+              subject.materials.forEach(function (material) {
+                html += '<div class="item-row"><span class="item-row__label">' + esc(material.name) + "</span>";
+                html +=
+                  '<button type="button" class="icon-btn icon-btn-danger" data-action="delete-material" data-subject-id="' +
+                  subject.id +
+                  '" data-material-id="' +
+                  material.id +
+                  '" aria-label="' +
+                  esc(l.removeLabel(material.name)) +
+                  '">' +
+                  ICONS.trash(14) +
+                  "</button></div>";
+              });
+              html +=
+                '<div class="inline-add"><input class="text-input" placeholder="' +
+                esc(l.addMaterialPlaceholder) +
+                '" data-material-input="' +
+                subject.id +
+                '" data-enter-action="add-material" data-subject-id="' +
+                subject.id +
+                '" />';
+              html +=
+                '<button type="button" class="icon-btn" data-action="add-material" data-subject-id="' +
+                subject.id +
+                '" aria-label="' +
+                esc(l.addMaterialLabel) +
+                '">' +
+                ICONS.plus(18) +
+                "</button></div>";
+              html += "</div>";
+            }
+            html += "</div>";
+          });
+
+          html += '<div class="card manage-card"><p class="section-title" style="margin:0 0 10px;">' + esc(l.addSubjectTitle) + "</p>";
+          html +=
+            '<div class="inline-add"><input class="text-input" id="new-subject-input" placeholder="' +
+            esc(l.addSubjectPlaceholder) +
+            '" data-enter-action="add-subject" />';
+          html +=
+            '<button type="button" class="icon-btn" data-action="add-subject" aria-label="' +
+            esc(l.addSubjectLabel) +
+            '">' +
+            ICONS.plus(18) +
+            "</button></div></div>";
+
+          html += "</main>";
+          return html;
+        }
+
+        /* ---------- render: settings screen ---------- */
+
+        function renderSettingsScreen() {
+          var l = L();
+          var html = renderHeader(l.settingsTitle, l.settingsSubtitle);
+          html += '<main class="app-main">';
+          html += '<p class="section-title">' + esc(l.everydayItemsTitle) + '</p><div class="card manage-card">';
+          var items = state.data.everydayItems;
+          if (items.length === 0) {
+            html += '<p class="empty-hint">' + esc(l.noEverydayItems) + "</p>";
+          } else {
+            items.forEach(function (item) {
+              html += '<div class="item-row"><span class="item-row__label">' + esc(item.name) + "</span>";
+              html +=
+                '<button type="button" class="icon-btn icon-btn-danger" data-action="delete-everyday" data-item-id="' +
+                item.id +
+                '" aria-label="' +
+                esc(l.removeLabel(item.name)) +
+                '">' +
+                ICONS.trash(14) +
+                "</button></div>";
+            });
+          }
+          html +=
+            '<div class="inline-add"><input class="text-input" id="new-everyday-input" placeholder="' +
+            esc(l.addEverydayPlaceholder) +
+            '" data-enter-action="add-everyday" />';
+          html +=
+            '<button type="button" class="icon-btn" data-action="add-everyday" aria-label="' + esc(l.addItemLabel) + '">' + ICONS.plus(18) + "</button></div>";
+          html += "</div>";
+
+          html += '<p class="section-title">' + esc(l.dataTitle) + '</p><div class="card manage-card">';
+          html += '<button type="button" class="btn btn-danger-ghost" data-action="reset-data">' + esc(l.resetButton) + "</button>";
+          html += "</div>";
+
+          html += '<p class="settings-footer">' + esc(l.appTitle) + "<br/>" + esc(l.footerNote) + "</p>";
+          html += "</main>";
+          return html;
+        }
+
+        /* ---------- render: root ---------- */
+
+        function render() {
+          var html = '<div class="app">';
+          if (state.screen === "today") html += renderTodayScreen();
+          else if (state.screen === "schedule") html += renderScheduleScreen();
+          else if (state.screen === "subjects") html += renderSubjectsScreen();
+          else if (state.screen === "settings") html += renderSettingsScreen();
+          html += renderBottomNav();
+          html += "</div>";
+          root.innerHTML = html;
+        }
+
+        /* ---------- actions ---------- */
+
+        function toggleOpenDay(day) {
+          state.openDay = state.openDay === day ? null : day;
+          var cards = document.querySelectorAll(".day-card");
+          cards.forEach(function (card) {
+            var cardDay = card.getAttribute("data-day");
+            var isOpen = state.openDay === cardDay;
+            var panel = card.querySelector(".day-card__panel");
+            var chevron = card.querySelector(".day-card__chevron");
+            var header = card.querySelector(".day-card__header");
+            panel.classList.toggle("open", isOpen);
+            chevron.classList.toggle("open", isOpen);
+            header.setAttribute("aria-expanded", String(isOpen));
+          });
+        }
+
+        function handleToggleItem(day, key) {
+          var dayState = state.checked[day];
+          var next = !dayState.items[key];
+          var items = {};
+          for (var k in dayState.items) items[k] = dayState.items[k];
+          items[key] = next;
+          dayState.items = items;
+          dayState.weekOf = getCurrentWeekMonday();
+          saveChecked(state.checked);
+          render();
+        }
+
+        function handleToggleScheduleSubject(subjectId) {
+          var day = state.scheduleDay;
+          var current = state.data.schedule[day] || [];
+          var idx = current.indexOf(subjectId);
+          if (idx >= 0) current.splice(idx, 1);
+          else current.push(subjectId);
+          saveData(state.data);
+          render();
+        }
+
+        function findSubject(subjectId) {
+          return state.data.subjects.filter(function (s) {
+            return s.id === subjectId;
+          })[0];
+        }
+
+        function handleAddSubject() {
+          var input = document.getElementById("new-subject-input");
+          var name = input.value.trim();
+          if (!name) return;
+          state.data.subjects.push({ id: createId(), name: name, materials: [] });
+          saveData(state.data);
+          render();
+        }
+
+        function handleRenameSubject(subjectId, name) {
+          var subject = findSubject(subjectId);
+          if (!subject) return;
+          subject.name = name;
+          saveData(state.data);
+        }
+
+        function handleDeleteSubject(subjectId) {
+          var subject = findSubject(subjectId);
+          if (!subject) return;
+          if (!confirm(L().confirmDeleteSubject(subject.name))) return;
+          state.data.subjects = state.data.subjects.filter(function (s) {
+            return s.id !== subjectId;
+          });
+          DAY_KEYS.forEach(function (d) {
+            state.data.schedule[d] = state.data.schedule[d].filter(function (id) {
+              return id !== subjectId;
+            });
+          });
+          if (state.expandedSubjectId === subjectId) state.expandedSubjectId = null;
+          saveData(state.data);
+          render();
+        }
+
+        function handleAddMaterial(subjectId) {
+          var input = document.querySelector('[data-material-input="' + subjectId + '"]');
+          if (!input) return;
+          var name = input.value.trim();
+          if (!name) return;
+          var subject = findSubject(subjectId);
+          if (!subject) return;
+          subject.materials.push({ id: createId(), name: name });
+          saveData(state.data);
+          render();
+        }
+
+        function handleDeleteMaterial(subjectId, materialId) {
+          var subject = findSubject(subjectId);
+          if (!subject) return;
+          subject.materials = subject.materials.filter(function (mm) {
+            return mm.id !== materialId;
+          });
+          saveData(state.data);
+          render();
+        }
+
+        function handleAddEverydayItem() {
+          var input = document.getElementById("new-everyday-input");
+          var name = input.value.trim();
+          if (!name) return;
+          state.data.everydayItems.push({ id: createId(), name: name });
+          saveData(state.data);
+          render();
+        }
+
+        function handleDeleteEverydayItem(itemId) {
+          state.data.everydayItems = state.data.everydayItems.filter(function (it) {
+            return it.id !== itemId;
+          });
+          saveData(state.data);
+          render();
+        }
+
+        function handleResetData() {
+          if (!confirm(L().confirmReset)) return;
+          state.data = cloneDefaultData(state.lang);
+          saveData(state.data);
+          render();
+        }
+
+        function setLang(lang) {
+          if (lang !== "en" && lang !== "it") return;
+          if (lang === state.lang) return;
+          // If the user hasn't customized their subjects/materials/everyday items yet
+          // (still exactly the starter demo data, in either language), swap the demo
+          // content to match the new language too. Any real edit permanently opts out
+          // of this so a parent's own data is never silently rewritten.
+          var currentJson = JSON.stringify(state.data);
+          var isUnmodifiedDemo = currentJson === JSON.stringify(DEFAULT_DATA_EN) || currentJson === JSON.stringify(DEFAULT_DATA_IT);
+          state.lang = lang;
+          saveLang(lang);
+          if (isUnmodifiedDemo) {
+            state.data = cloneDefaultData(lang);
+            saveData(state.data);
+          }
+          document.documentElement.setAttribute("lang", lang);
+          document.title = L().appTitle;
+          render();
+        }
+
+        /* ---------- event delegation ---------- */
+
+        document.addEventListener("click", function (e) {
+          var el = e.target.closest("[data-action]");
+          if (!el) return;
+          var action = el.getAttribute("data-action");
+          if (action === "switch-screen") {
+            state.screen = el.getAttribute("data-screen");
+            render();
+          } else if (action === "toggle-day") {
+            toggleOpenDay(el.getAttribute("data-day"));
+          } else if (action === "toggle-item") {
+            handleToggleItem(el.getAttribute("data-day"), el.getAttribute("data-key"));
+          } else if (action === "toggle-schedule-subject") {
+            handleToggleScheduleSubject(el.getAttribute("data-subject-id"));
+          } else if (action === "set-schedule-day") {
+            state.scheduleDay = el.getAttribute("data-day");
+            render();
+          } else if (action === "toggle-expand-subject") {
+            var sid = el.getAttribute("data-subject-id");
+            state.expandedSubjectId = state.expandedSubjectId === sid ? null : sid;
+            render();
+          } else if (action === "delete-subject") {
+            handleDeleteSubject(el.getAttribute("data-subject-id"));
+          } else if (action === "delete-material") {
+            handleDeleteMaterial(el.getAttribute("data-subject-id"), el.getAttribute("data-material-id"));
+          } else if (action === "add-material") {
+            handleAddMaterial(el.getAttribute("data-subject-id"));
+          } else if (action === "add-subject") {
+            handleAddSubject();
+          } else if (action === "delete-everyday") {
+            handleDeleteEverydayItem(el.getAttribute("data-item-id"));
+          } else if (action === "add-everyday") {
+            handleAddEverydayItem();
+          } else if (action === "reset-data") {
+            handleResetData();
+          } else if (action === "set-lang") {
+            setLang(el.getAttribute("data-lang"));
+          }
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "Enter") return;
+          var el = e.target.closest("[data-enter-action]");
+          if (!el) return;
+          var action = el.getAttribute("data-enter-action");
+          if (action === "add-material") handleAddMaterial(el.getAttribute("data-subject-id"));
+          else if (action === "add-subject") handleAddSubject();
+          else if (action === "add-everyday") handleAddEverydayItem();
+        });
+
+        document.addEventListener("input", function (e) {
+          var el = e.target.closest("[data-rename-subject]");
+          if (!el) return;
+          handleRenameSubject(el.getAttribute("data-rename-subject"), el.value);
+        });
+
+        /* ---------- init ---------- */
+
+        render();
+      })();
+    </script>
+  </body>
+</html>
