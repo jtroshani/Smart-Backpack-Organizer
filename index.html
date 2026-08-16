@@ -112,6 +112,39 @@
         max-width: 46ch;
       }
 
+      .app-header__top {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+      }
+
+      .lang-toggle {
+        display: inline-flex;
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: var(--radius-pill);
+        padding: 3px;
+        gap: 2px;
+      }
+
+      .lang-toggle__btn {
+        border: none;
+        background: transparent;
+        color: #fff;
+        opacity: 0.75;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        padding: 6px 13px;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+      }
+
+      .lang-toggle__btn.active {
+        background: #fff;
+        color: var(--color-red-dark);
+        opacity: 1;
+      }
+
       /* Bottom nav */
       .bottom-nav {
         position: sticky;
@@ -692,22 +725,147 @@
           },
         };
 
-        /* ---------- data model + defaults ---------- */
+        /* ---------- i18n ---------- */
 
         var DAY_KEYS = ["monday", "tuesday", "wednesday", "thursday", "friday"];
-        var DAY_LABELS = {
-          monday: "Monday",
-          tuesday: "Tuesday",
-          wednesday: "Wednesday",
-          thursday: "Thursday",
-          friday: "Friday",
+
+        var I18N = {
+          en: {
+            languageLabel: "Language",
+            appTitle: "Smart Backpack Organizer",
+            todaySubtitle: "Select a day to see everything your child needs for school and check items off as you pack.",
+            nav: { today: "Today", schedule: "Schedule", subjects: "Subjects", settings: "Settings" },
+            days: { monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday", thursday: "Thursday", friday: "Friday" },
+            today: "Today",
+            noSubjectsScheduled: "No subjects scheduled",
+            everydayGroup: "Everyday",
+            nothingScheduled: "Nothing scheduled for this day yet. Add subjects in Schedule.",
+            itemsCount: function (n) {
+              return n + (n === 1 ? " item" : " items");
+            },
+            packedProgress: function (packed, total) {
+              return packed + " of " + total + " packed";
+            },
+            backpackReady: "Backpack Ready",
+            scheduleTitle: "Schedule",
+            scheduleSubtitle: "Choose which subjects your child has on each day.",
+            noSubjectsAddInSubjects: "No subjects yet. Add some in the Subjects tab first.",
+            subjectsTitle: "Subjects",
+            subjectsSubtitle: "Manage subjects and the materials each one needs.",
+            noSubjectsYet: "No subjects yet. Add your first one below.",
+            collapse: "Collapse",
+            expand: "Expand",
+            subjectNameLabel: "Subject name",
+            deleteSubject: "Delete subject",
+            addMaterialPlaceholder: "Add material…",
+            addMaterialLabel: "Add material",
+            addSubjectTitle: "Add subject",
+            addSubjectPlaceholder: "e.g. Chemistry",
+            addSubjectLabel: "Add subject",
+            confirmDeleteSubject: function (name) {
+              return 'Delete "' + name + '" and all its materials?';
+            },
+            removeLabel: function (name) {
+              return "Remove " + name;
+            },
+            settingsTitle: "Settings",
+            settingsSubtitle: "Everyday items go in the backpack no matter the day.",
+            everydayItemsTitle: "Everyday items",
+            noEverydayItems: "No everyday items yet.",
+            addEverydayPlaceholder: "e.g. Umbrella",
+            addItemLabel: "Add item",
+            dataTitle: "Data",
+            resetButton: "Reset to default setup",
+            confirmReset: "Reset subjects, schedule, and everyday items back to the defaults? This can't be undone.",
+            footerNote: "Everything is saved on this device only.",
+          },
+          it: {
+            languageLabel: "Lingua",
+            appTitle: "Organizzatore Zaino Intelligente",
+            todaySubtitle: "Seleziona un giorno per vedere tutto ciò che serve a tuo figlio per la scuola e spunta gli oggetti mentre li metti nello zaino.",
+            nav: { today: "Oggi", schedule: "Orario", subjects: "Materie", settings: "Impostazioni" },
+            days: { monday: "Lunedì", tuesday: "Martedì", wednesday: "Mercoledì", thursday: "Giovedì", friday: "Venerdì" },
+            today: "Oggi",
+            noSubjectsScheduled: "Nessuna materia in programma",
+            everydayGroup: "Ogni giorno",
+            nothingScheduled: "Ancora nessuna materia programmata per questo giorno. Aggiungi le materie in Orario.",
+            itemsCount: function (n) {
+              return n + (n === 1 ? " elemento" : " elementi");
+            },
+            packedProgress: function (packed, total) {
+              return packed + " di " + total + " nello zaino";
+            },
+            backpackReady: "Zaino Pronto",
+            scheduleTitle: "Orario",
+            scheduleSubtitle: "Scegli quali materie ha tuo figlio ogni giorno.",
+            noSubjectsAddInSubjects: "Nessuna materia ancora. Aggiungine alcune nella scheda Materie.",
+            subjectsTitle: "Materie",
+            subjectsSubtitle: "Gestisci le materie e il materiale necessario per ciascuna.",
+            noSubjectsYet: "Nessuna materia ancora. Aggiungi la prima qui sotto.",
+            collapse: "Comprimi",
+            expand: "Espandi",
+            subjectNameLabel: "Nome materia",
+            deleteSubject: "Elimina materia",
+            addMaterialPlaceholder: "Aggiungi materiale…",
+            addMaterialLabel: "Aggiungi materiale",
+            addSubjectTitle: "Aggiungi materia",
+            addSubjectPlaceholder: "es. Chimica",
+            addSubjectLabel: "Aggiungi materia",
+            confirmDeleteSubject: function (name) {
+              return 'Eliminare "' + name + '" e tutto il suo materiale?';
+            },
+            removeLabel: function (name) {
+              return "Rimuovi " + name;
+            },
+            settingsTitle: "Impostazioni",
+            settingsSubtitle: "Gli oggetti di tutti i giorni vanno nello zaino ogni giorno.",
+            everydayItemsTitle: "Oggetti di tutti i giorni",
+            noEverydayItems: "Nessun oggetto ancora.",
+            addEverydayPlaceholder: "es. Ombrello",
+            addItemLabel: "Aggiungi oggetto",
+            dataTitle: "Dati",
+            resetButton: "Ripristina impostazioni predefinite",
+            confirmReset: "Ripristinare materie, orario e oggetti di tutti i giorni ai valori predefiniti? Questa azione non può essere annullata.",
+            footerNote: "Tutti i dati vengono salvati solo su questo dispositivo.",
+          },
         };
+
+        var LANG_KEY = "sbo:lang";
+
+        function detectDefaultLang() {
+          try {
+            var navLang = navigator.language || (navigator.languages && navigator.languages[0]) || "en";
+            return navLang.toLowerCase().indexOf("it") === 0 ? "it" : "en";
+          } catch (e) {
+            return "en";
+          }
+        }
+
+        function loadLang() {
+          try {
+            var raw = localStorage.getItem(LANG_KEY);
+            if (raw === "en" || raw === "it") return raw;
+            return detectDefaultLang();
+          } catch (e) {
+            return "en";
+          }
+        }
+
+        function saveLang(lang) {
+          localStorage.setItem(LANG_KEY, lang);
+        }
+
+        function L() {
+          return I18N[state.lang];
+        }
+
+        /* ---------- data model + defaults ---------- */
 
         function m(id, name) {
           return { id: id, name: name };
         }
 
-        var DEFAULT_DATA = {
+        var DEFAULT_DATA_EN = {
           subjects: [
             {
               id: "math",
@@ -765,8 +923,67 @@
           everydayItems: [m("pencil-case", "Pencil case"), m("water-bottle", "Water bottle"), m("lunch-box", "Lunch box"), m("diary", "School diary"), m("snack", "Snack")],
         };
 
-        function cloneDefaultData() {
-          return JSON.parse(JSON.stringify(DEFAULT_DATA));
+        var DEFAULT_DATA_IT = {
+          subjects: [
+            {
+              id: "math",
+              name: "Matematica",
+              materials: [m("math-book", "Libro di matematica"), m("math-notebook", "Quaderno"), m("math-geo-set", "Set da geometria"), m("math-compass", "Compasso")],
+            },
+            {
+              id: "italian",
+              name: "Italiano",
+              materials: [m("it-book", "Libro di italiano"), m("it-notebook", "Quaderno"), m("it-folder", "Cartellina")],
+            },
+            {
+              id: "geography",
+              name: "Geografia",
+              materials: [m("geo-book", "Libro di geografia"), m("geo-atlas", "Atlante")],
+            },
+            {
+              id: "english",
+              name: "Inglese",
+              materials: [m("eng-book", "Libro di inglese"), m("eng-notebook", "Quaderno"), m("eng-workbook", "Eserciziario")],
+            },
+            {
+              id: "science",
+              name: "Scienze",
+              materials: [m("sci-book", "Libro di scienze"), m("sci-notebook", "Quaderno")],
+            },
+            {
+              id: "history",
+              name: "Storia",
+              materials: [m("hist-book", "Libro di storia"), m("hist-notebook", "Quaderno")],
+            },
+            {
+              id: "art",
+              name: "Arte",
+              materials: [m("art-sketchbook", "Album da disegno"), m("art-pencils", "Matite colorate")],
+            },
+            {
+              id: "pe",
+              name: "Educazione Fisica",
+              materials: [m("pe-kit", "Tuta da ginnastica"), m("pe-shoes", "Scarpe da ginnastica")],
+            },
+            {
+              id: "music",
+              name: "Musica",
+              materials: [m("music-book", "Libro di musica"), m("music-recorder", "Flauto dolce")],
+            },
+          ],
+          schedule: {
+            monday: ["math", "italian", "geography"],
+            tuesday: ["english", "science", "art"],
+            wednesday: ["math", "history", "music"],
+            thursday: ["italian", "pe", "science"],
+            friday: ["math", "english", "geography"],
+          },
+          everydayItems: [m("pencil-case", "Astuccio"), m("water-bottle", "Borraccia"), m("lunch-box", "Porta pranzo"), m("diary", "Diario scolastico"), m("snack", "Merenda")],
+        };
+
+        function cloneDefaultData(lang) {
+          var base = lang === "it" ? DEFAULT_DATA_IT : DEFAULT_DATA_EN;
+          return JSON.parse(JSON.stringify(base));
         }
 
         function createId() {
@@ -796,15 +1013,15 @@
         var DATA_KEY = "sbo:data";
         var CHECKED_KEY = "sbo:checked";
 
-        function loadData() {
+        function loadData(lang) {
           try {
             var raw = localStorage.getItem(DATA_KEY);
-            if (!raw) return cloneDefaultData();
+            if (!raw) return cloneDefaultData(lang);
             var parsed = JSON.parse(raw);
-            if (!parsed.subjects || !parsed.schedule || !parsed.everydayItems) return cloneDefaultData();
+            if (!parsed.subjects || !parsed.schedule || !parsed.everydayItems) return cloneDefaultData(lang);
             return parsed;
           } catch (e) {
-            return cloneDefaultData();
+            return cloneDefaultData(lang);
           }
         }
 
@@ -921,9 +1138,12 @@
 
         /* ---------- state ---------- */
 
+        var initialLang = loadLang();
+
         var state = {
+          lang: initialLang,
           screen: "today",
-          data: loadData(),
+          data: loadData(initialLang),
           checked: loadChecked(),
           openDay: getTodayKey() || "monday",
           scheduleDay: "monday",
@@ -932,27 +1152,41 @@
 
         saveData(state.data);
         saveChecked(state.checked);
+        document.documentElement.setAttribute("lang", state.lang);
+        document.title = L().appTitle;
 
         var root = document.getElementById("root");
 
         /* ---------- render: shared chrome ---------- */
 
         function renderHeader(title, subtitle) {
-          return (
-            '<header class="app-header"><h1 class="app-header__title">' +
-            esc(title) +
-            '</h1><p class="app-header__subtitle">' +
-            esc(subtitle) +
-            "</p></header>"
-          );
+          var lang = state.lang;
+          var html = '<header class="app-header"><div class="app-header__top">';
+          html += '<div class="lang-toggle" role="group" aria-label="' + esc(L().languageLabel) + '">';
+          html +=
+            '<button type="button" class="lang-toggle__btn' +
+            (lang === "en" ? " active" : "") +
+            '" data-action="set-lang" data-lang="en" aria-pressed="' +
+            (lang === "en") +
+            '" aria-label="English">EN</button>';
+          html +=
+            '<button type="button" class="lang-toggle__btn' +
+            (lang === "it" ? " active" : "") +
+            '" data-action="set-lang" data-lang="it" aria-pressed="' +
+            (lang === "it") +
+            '" aria-label="Italiano">IT</button>';
+          html += "</div></div>";
+          html += '<h1 class="app-header__title">' + esc(title) + '</h1><p class="app-header__subtitle">' + esc(subtitle) + "</p></header>";
+          return html;
         }
 
         function renderBottomNav() {
+          var l = L();
           var items = [
-            { key: "today", label: "Today", icon: ICONS.backpack },
-            { key: "schedule", label: "Schedule", icon: ICONS.calendarDays },
-            { key: "subjects", label: "Subjects", icon: ICONS.bookOpen },
-            { key: "settings", label: "Settings", icon: ICONS.settings },
+            { key: "today", label: l.nav.today, icon: ICONS.backpack },
+            { key: "schedule", label: l.nav.schedule, icon: ICONS.calendarDays },
+            { key: "subjects", label: l.nav.subjects, icon: ICONS.bookOpen },
+            { key: "settings", label: l.nav.settings, icon: ICONS.settings },
           ];
           var html = '<nav class="bottom-nav">';
           items.forEach(function (it) {
@@ -1020,10 +1254,8 @@
 
         function renderTodayScreen() {
           var todayKey = getTodayKey();
-          var html = renderHeader(
-            "Smart Backpack Organizer",
-            "Select a day to see everything your child needs for school and check items off as you pack."
-          );
+          var l = L();
+          var html = renderHeader(l.appTitle, l.todaySubtitle);
           html += '<main class="app-main"><div class="accordion-list">';
           DAY_KEYS.forEach(function (day) {
             html += renderDayCard(day, todayKey);
@@ -1033,6 +1265,7 @@
         }
 
         function renderDayCard(day, todayKey) {
+          var l = L();
           var data = state.data;
           var groups = buildDayGroups(day, data);
           var total = countItems(groups);
@@ -1051,19 +1284,20 @@
             isOpen +
             '">';
           html += renderProgressRing(packed, total, 40);
-          html += '<div class="day-card__body"><div class="day-card__name-row"><p class="day-card__name">' + DAY_LABELS[day] + "</p>";
-          if (isToday) html += '<span class="day-card__today-pill">Today</span>';
-          html += '</div><p class="day-card__summary">' + esc(summary || "No subjects scheduled") + "</p></div>";
-          html += '<div class="day-card__meta"><span class="day-card__count">' + total + " items</span></div>";
+          html += '<div class="day-card__body"><div class="day-card__name-row"><p class="day-card__name">' + esc(l.days[day]) + "</p>";
+          if (isToday) html += '<span class="day-card__today-pill">' + esc(l.today) + "</span>";
+          html += '</div><p class="day-card__summary">' + esc(summary || l.noSubjectsScheduled) + "</p></div>";
+          html += '<div class="day-card__meta"><span class="day-card__count">' + esc(l.itemsCount(total)) + "</span></div>";
           html += '<span class="day-card__chevron' + (isOpen ? " open" : "") + '">' + ICONS.chevronDown(20) + "</span>";
           html += "</button>";
 
           html += '<div class="day-card__panel' + (isOpen ? " open" : "") + '"><div class="day-card__panel-inner"><div class="day-card__content">';
           if (groups.length === 0) {
-            html += '<p class="empty-hint">Nothing scheduled for this day yet. Add subjects in Schedule.</p>';
+            html += '<p class="empty-hint">' + esc(l.nothingScheduled) + "</p>";
           } else {
             groups.forEach(function (group) {
-              html += '<div class="checklist-group"><p class="checklist-group__title">' + esc(group.name) + "</p>";
+              var groupLabel = group.id === "everyday" ? l.everydayGroup : group.name;
+              html += '<div class="checklist-group"><p class="checklist-group__title">' + esc(groupLabel) + "</p>";
               group.items.forEach(function (item) {
                 var checked = Boolean(checkedState.items[item.key]);
                 html +=
@@ -1084,17 +1318,15 @@
           if (total > 0) {
             html += '<div class="day-card__footer">';
             if (complete) {
-              html += '<div class="ready-banner">' + ICONS.partyPopper(18) + " Backpack Ready</div>";
+              html += '<div class="ready-banner">' + ICONS.partyPopper(18) + " " + esc(l.backpackReady) + "</div>";
             } else {
               var pct = total === 0 ? 0 : (packed / total) * 100;
               html +=
                 '<div class="progress-row"><div class="progress-track"><div class="progress-fill" style="width:' +
                 pct +
                 '%"></div></div><span class="progress-label">' +
-                packed +
-                " of " +
-                total +
-                " packed</span></div>";
+                esc(l.packedProgress(packed, total)) +
+                "</span></div>";
             }
             html += "</div>";
           }
@@ -1106,7 +1338,8 @@
         /* ---------- render: schedule screen ---------- */
 
         function renderScheduleScreen() {
-          var html = renderHeader("Schedule", "Choose which subjects your child has on each day.");
+          var l = L();
+          var html = renderHeader(l.scheduleTitle, l.scheduleSubtitle);
           html += '<main class="app-main"><div class="day-tabs">';
           DAY_KEYS.forEach(function (day) {
             var active = state.scheduleDay === day;
@@ -1116,7 +1349,7 @@
               '" data-action="set-schedule-day" data-day="' +
               day +
               '">' +
-              DAY_LABELS[day].slice(0, 3) +
+              esc(l.days[day].slice(0, 3)) +
               "</button>";
           });
           html += "</div>";
@@ -1124,7 +1357,7 @@
           html += '<div class="card manage-card">';
           var data = state.data;
           if (data.subjects.length === 0) {
-            html += '<p class="empty-hint">No subjects yet. Add some in the Subjects tab first.</p>';
+            html += '<p class="empty-hint">' + esc(l.noSubjectsAddInSubjects) + "</p>";
           } else {
             var assigned = {};
             (data.schedule[state.scheduleDay] || []).forEach(function (id) {
@@ -1146,11 +1379,12 @@
         /* ---------- render: subjects screen ---------- */
 
         function renderSubjectsScreen() {
-          var html = renderHeader("Subjects", "Manage subjects and the materials each one needs.");
+          var l = L();
+          var html = renderHeader(l.subjectsTitle, l.subjectsSubtitle);
           html += '<main class="app-main">';
           var data = state.data;
           if (data.subjects.length === 0) {
-            html += '<p class="empty-hint" style="margin-bottom:12px;">No subjects yet. Add your first one below.</p>';
+            html += '<p class="empty-hint" style="margin-bottom:12px;">' + esc(l.noSubjectsYet) + "</p>";
           }
           data.subjects.forEach(function (subject) {
             var isOpen = state.expandedSubjectId === subject.id;
@@ -1160,7 +1394,7 @@
               '<button type="button" class="icon-btn" data-action="toggle-expand-subject" data-subject-id="' +
               subject.id +
               '" aria-label="' +
-              (isOpen ? "Collapse" : "Expand") +
+              esc(isOpen ? l.collapse : l.expand) +
               '">';
             html +=
               '<span style="display:inline-flex;transition:transform .2s ease;transform:' +
@@ -1173,20 +1407,19 @@
               subject.id +
               '" value="' +
               esc(subject.name) +
-              '" aria-label="Subject name" />';
+              '" aria-label="' +
+              esc(l.subjectNameLabel) +
+              '" />';
             html +=
               '<button type="button" class="icon-btn icon-btn-danger" data-action="delete-subject" data-subject-id="' +
               subject.id +
-              '" aria-label="Delete subject">' +
+              '" aria-label="' +
+              esc(l.deleteSubject) +
+              '">' +
               ICONS.trash(16) +
               "</button>";
             html += "</div>";
-            html +=
-              '<p class="manage-card__caption">' +
-              subject.materials.length +
-              " " +
-              (subject.materials.length === 1 ? "item" : "items") +
-              "</p>";
+            html += '<p class="manage-card__caption">' + esc(l.itemsCount(subject.materials.length)) + "</p>";
 
             if (isOpen) {
               html += '<div style="margin-top:10px;">';
@@ -1197,14 +1430,16 @@
                   subject.id +
                   '" data-material-id="' +
                   material.id +
-                  '" aria-label="Remove ' +
-                  esc(material.name) +
+                  '" aria-label="' +
+                  esc(l.removeLabel(material.name)) +
                   '">' +
                   ICONS.trash(14) +
                   "</button></div>";
               });
               html +=
-                '<div class="inline-add"><input class="text-input" placeholder="Add material…" data-material-input="' +
+                '<div class="inline-add"><input class="text-input" placeholder="' +
+                esc(l.addMaterialPlaceholder) +
+                '" data-material-input="' +
                 subject.id +
                 '" data-enter-action="add-material" data-subject-id="' +
                 subject.id +
@@ -1212,7 +1447,9 @@
               html +=
                 '<button type="button" class="icon-btn" data-action="add-material" data-subject-id="' +
                 subject.id +
-                '" aria-label="Add material">' +
+                '" aria-label="' +
+                esc(l.addMaterialLabel) +
+                '">' +
                 ICONS.plus(18) +
                 "</button></div>";
               html += "</div>";
@@ -1220,10 +1457,17 @@
             html += "</div>";
           });
 
-          html += '<div class="card manage-card"><p class="section-title" style="margin:0 0 10px;">Add subject</p>';
+          html += '<div class="card manage-card"><p class="section-title" style="margin:0 0 10px;">' + esc(l.addSubjectTitle) + "</p>";
           html +=
-            '<div class="inline-add"><input class="text-input" id="new-subject-input" placeholder="e.g. Chemistry" data-enter-action="add-subject" />';
-          html += '<button type="button" class="icon-btn" data-action="add-subject" aria-label="Add subject">' + ICONS.plus(18) + "</button></div></div>";
+            '<div class="inline-add"><input class="text-input" id="new-subject-input" placeholder="' +
+            esc(l.addSubjectPlaceholder) +
+            '" data-enter-action="add-subject" />';
+          html +=
+            '<button type="button" class="icon-btn" data-action="add-subject" aria-label="' +
+            esc(l.addSubjectLabel) +
+            '">' +
+            ICONS.plus(18) +
+            "</button></div></div>";
 
           html += "</main>";
           return html;
@@ -1232,34 +1476,39 @@
         /* ---------- render: settings screen ---------- */
 
         function renderSettingsScreen() {
-          var html = renderHeader("Settings", "Everyday items go in the backpack no matter the day.");
+          var l = L();
+          var html = renderHeader(l.settingsTitle, l.settingsSubtitle);
           html += '<main class="app-main">';
-          html += '<p class="section-title">Everyday items</p><div class="card manage-card">';
+          html += '<p class="section-title">' + esc(l.everydayItemsTitle) + '</p><div class="card manage-card">';
           var items = state.data.everydayItems;
           if (items.length === 0) {
-            html += '<p class="empty-hint">No everyday items yet.</p>';
+            html += '<p class="empty-hint">' + esc(l.noEverydayItems) + "</p>";
           } else {
             items.forEach(function (item) {
               html += '<div class="item-row"><span class="item-row__label">' + esc(item.name) + "</span>";
               html +=
                 '<button type="button" class="icon-btn icon-btn-danger" data-action="delete-everyday" data-item-id="' +
                 item.id +
-                '" aria-label="Remove ' +
-                esc(item.name) +
+                '" aria-label="' +
+                esc(l.removeLabel(item.name)) +
                 '">' +
                 ICONS.trash(14) +
                 "</button></div>";
             });
           }
-          html += '<div class="inline-add"><input class="text-input" id="new-everyday-input" placeholder="e.g. Umbrella" data-enter-action="add-everyday" />';
-          html += '<button type="button" class="icon-btn" data-action="add-everyday" aria-label="Add item">' + ICONS.plus(18) + "</button></div>";
+          html +=
+            '<div class="inline-add"><input class="text-input" id="new-everyday-input" placeholder="' +
+            esc(l.addEverydayPlaceholder) +
+            '" data-enter-action="add-everyday" />';
+          html +=
+            '<button type="button" class="icon-btn" data-action="add-everyday" aria-label="' + esc(l.addItemLabel) + '">' + ICONS.plus(18) + "</button></div>";
           html += "</div>";
 
-          html += '<p class="section-title">Data</p><div class="card manage-card">';
-          html += '<button type="button" class="btn btn-danger-ghost" data-action="reset-data">Reset to default setup</button>';
+          html += '<p class="section-title">' + esc(l.dataTitle) + '</p><div class="card manage-card">';
+          html += '<button type="button" class="btn btn-danger-ghost" data-action="reset-data">' + esc(l.resetButton) + "</button>";
           html += "</div>";
 
-          html += '<p class="settings-footer">Smart Backpack Organizer<br/>Everything is saved on this device only.</p>';
+          html += '<p class="settings-footer">' + esc(l.appTitle) + "<br/>" + esc(l.footerNote) + "</p>";
           html += "</main>";
           return html;
         }
@@ -1341,7 +1590,7 @@
         function handleDeleteSubject(subjectId) {
           var subject = findSubject(subjectId);
           if (!subject) return;
-          if (!confirm('Delete "' + subject.name + '" and all its materials?')) return;
+          if (!confirm(L().confirmDeleteSubject(subject.name))) return;
           state.data.subjects = state.data.subjects.filter(function (s) {
             return s.id !== subjectId;
           });
@@ -1395,9 +1644,29 @@
         }
 
         function handleResetData() {
-          if (!confirm("Reset subjects, schedule, and everyday items back to the defaults? This can't be undone.")) return;
-          state.data = cloneDefaultData();
+          if (!confirm(L().confirmReset)) return;
+          state.data = cloneDefaultData(state.lang);
           saveData(state.data);
+          render();
+        }
+
+        function setLang(lang) {
+          if (lang !== "en" && lang !== "it") return;
+          if (lang === state.lang) return;
+          // If the user hasn't customized their subjects/materials/everyday items yet
+          // (still exactly the starter demo data, in either language), swap the demo
+          // content to match the new language too. Any real edit permanently opts out
+          // of this so a parent's own data is never silently rewritten.
+          var currentJson = JSON.stringify(state.data);
+          var isUnmodifiedDemo = currentJson === JSON.stringify(DEFAULT_DATA_EN) || currentJson === JSON.stringify(DEFAULT_DATA_IT);
+          state.lang = lang;
+          saveLang(lang);
+          if (isUnmodifiedDemo) {
+            state.data = cloneDefaultData(lang);
+            saveData(state.data);
+          }
+          document.documentElement.setAttribute("lang", lang);
+          document.title = L().appTitle;
           render();
         }
 
@@ -1437,6 +1706,8 @@
             handleAddEverydayItem();
           } else if (action === "reset-data") {
             handleResetData();
+          } else if (action === "set-lang") {
+            setLang(el.getAttribute("data-lang"));
           }
         });
 
