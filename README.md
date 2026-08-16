@@ -28,3 +28,12 @@ python3 -m http.server 8000
 All data (subjects, schedule, everyday items, and checked-off items) is saved
 to the browser's local storage, so it persists between visits on the same
 device. Checked items automatically reset at the start of each new week.
+
+## Language
+
+The interface is fully bilingual (English/Italian). A toggle in the top-right
+of the header switches instantly and the choice is remembered on the device.
+The starter demo content (the default subjects and materials) switches
+language along with it — but only until you actually customize something
+(rename a subject, add a material, etc.); after that, your own text is never
+auto-translated or overwritten.
